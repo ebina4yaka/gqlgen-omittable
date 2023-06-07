@@ -18,7 +18,49 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 
 // UpdateUser is the resolver for the updateUser field.
 func (r *mutationResolver) UpdateUser(ctx context.Context, input model.UpdateUserInput) (*model.UpdateUserPayload, error) {
-	panic(fmt.Errorf("not implemented: UpdateUser - updateUser"))
+	touched := []string{"id"}
+
+	if input.Name.IsSet() {
+		touched = append(touched, "name")
+	}
+
+	profile, profileIsSet := input.Profile.ValueOK()
+
+	if profileIsSet {
+		touched = append(touched, "profile")
+
+		if profile != nil {
+			if profile.Bio.IsSet() {
+				touched = append(touched, "profile.bio")
+			}
+
+			address, addressIsSet := profile.Address.ValueOK()
+
+			if addressIsSet {
+				touched = append(touched, "profile.address")
+
+				if address != nil {
+					if address.City.IsSet() {
+						touched = append(touched, "profile.address.city")
+					}
+
+					if address.Prefecture.IsSet() {
+						touched = append(touched, "profile.address.prefecture")
+					}
+
+					if address.PostCode.IsSet() {
+						touched = append(touched, "profile.address.postcode")
+					}
+				}
+			}
+		}
+	}
+
+	if input.Profile.IsSet() {
+
+	}
+
+	return &model.UpdateUserPayload{TouchedField: touched}, nil
 }
 
 // Todos is the resolver for the todos field.
