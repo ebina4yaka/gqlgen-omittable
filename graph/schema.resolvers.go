@@ -56,10 +56,6 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, input model.UpdateUse
 		}
 	}
 
-	if input.Profile.IsSet() {
-
-	}
-
 	return &model.UpdateUserPayload{TouchedField: touched}, nil
 }
 
