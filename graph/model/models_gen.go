@@ -2,6 +2,16 @@
 
 package model
 
+import (
+	"github.com/99designs/gqlgen/graphql"
+)
+
+type AddressInput struct {
+	PostCode   graphql.Omittable[*string] `json:"postCode,omitempty"`
+	Prefecture graphql.Omittable[*string] `json:"prefecture,omitempty"`
+	City       graphql.Omittable[*string] `json:"city,omitempty"`
+}
+
 type NewTodo struct {
 	Text   string `json:"text"`
 	UserID string `json:"userId"`
@@ -14,7 +24,22 @@ type Todo struct {
 	User *User  `json:"user"`
 }
 
+type UpdateUserInput struct {
+	ID      string                               `json:"id"`
+	Name    graphql.Omittable[*string]           `json:"name,omitempty"`
+	Profile graphql.Omittable[*UserProfileInput] `json:"profile,omitempty"`
+}
+
+type UpdateUserPayload struct {
+	TouchedField []string `json:"touchedField"`
+}
+
 type User struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
+}
+
+type UserProfileInput struct {
+	Bio     graphql.Omittable[*string]       `json:"bio,omitempty"`
+	Address graphql.Omittable[*AddressInput] `json:"address,omitempty"`
 }

@@ -23,6 +23,28 @@ input NewTodo {
   userId: String!
 }
 
+input AddressInput {
+  postCode: String
+  prefecture: String
+  city: String
+}
+
+input UserProfileInput {
+  bio: String
+  address: AddressInput
+}
+
+input UpdateUserInput {
+  id: ID!
+  name: String
+  profile: UserProfileInput
+}
+
+type UpdateUserPayload {
+  touchedField: [String!]!
+}
+
 type Mutation {
   createTodo(input: NewTodo!): Todo!
+  updateUser(input: UpdateUserInput!): UpdateUserPayload!
 }
